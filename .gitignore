@@ -1,0 +1,41 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest cache
+.pytest_cache/
+
+# Data artifacts (keep sample and configs, ignore bulk scraped/generated data)
+data/raw/
+data/clean/
+data/annotation/ground_truth.csv
+data/clean/corpus_clean.csv
+data/clean/corpus_predictions.csv
+
+# Trained models & checkpoints
+models/
+*.pt
+*.bin
+*.joblib
+
+# Reports generated during runs (keep folder structure if needed)
+reports/*.csv
+reports/*.json
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
