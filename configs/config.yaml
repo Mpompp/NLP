@@ -1,0 +1,53 @@
+# Global experiment seed
+seed: 42
+
+# Directory paths
+paths:
+  raw_dir: "data/raw"
+  clean_dir: "data/clean"
+  annotation_dir: "data/annotation"
+  splits_dir: "data/splits"
+  models_dir: "models"
+  reports_dir: "reports"
+
+# Steamworks API Scraper configuration
+scraper_params:
+  filter: "recent"
+  language: "english"
+  review_type: "all"
+  purchase_type: "all"
+  num_per_page: 100
+  delay_seconds: 1.2
+  max_retries: 5
+
+# Sample target indie games (minimal 10 contoh game terkemuka)
+target_games:
+  - app_id: 367520
+    name: "Hollow Knight"
+  - app_id: 504230
+    name: "Celeste"
+  - app_id: 1145360
+    name: "Hades"
+  - app_id: 588650
+    name: "Dead Cells"
+  - app_id: 268910
+    name: "Cuphead"
+  - app_id: 413150
+    name: "Stardew Valley"
+  - app_id: 105600
+    name: "Terraria"
+  - app_id: 646570
+    name: "Slay the Spire"
+  - app_id: 250900
+    name: "The Binding of Isaac: Rebirth"
+  - app_id: 391540
+    name: "Undertale"
+  - app_id: 753640
+    name: "Outer Wilds"
+  - app_id: 264710
+    name: "Subnautica"
+
+# Catatan: Tempat menaruh daftar lengkap 150 gim indie target penelitian.
+# Path berkas TSV referensi 150 gim indie:
+target_150_reference: "configs/appids_reference.tsv"
+target_150_games: []

@@ -1,0 +1,92 @@
+{
+  "contract_version": "1.1.0",
+  "project_metadata": {
+    "official_title": "KLASIFIKASI MULTI-KATEGORI ULASAN PEMAIN GIM INDIE DI STEAM MENGGUNAKAN MODEL BERT BERBASIS NATURAL LANGUAGE PROCESSING",
+    "author": "Arief Fadhillah",
+    "institution": "Universitas Widyatama",
+    "faculty": "Fakultas Teknik",
+    "program": "Program Studi Teknik Informatika",
+    "degree": "Sarjana Komputer (S.Kom)",
+    "repository_root": "C:/Users/pomp/Desktop/projects/NLP"
+  },
+  "theoretical_framework": {
+    "aspect_taxonomy": "Taksonomi Faset Pengalaman Bermain dan Pengujian Gim (Game Playability & Testing Facets)",
+    "primary_references": [
+      "Politowski et al. (2021) - A Large Scale Empirical Study of Video Game Bugs for Game Testing",
+      "Guzman & Maalej (2014) - How Do Users Like This Feature? A Fine Grained Sentiment Analysis of App Reviews",
+      "Lin et al. (2019) - An Empirical Study of Game Reviews on Steam"
+    ],
+    "iso25010_status": "EXCLUDED / ELIMINATED (Standar ISO/IEC 25010 resmi dicabut total dari landasan utama penelitian)"
+  },
+  "problem_statement": [
+    "Rating biner Steam (Positive vs Negative) mengaburkan detail diagnostik teknis dan kualitatif secara signifikan.",
+    "Pendekatan multikelas tunggal (single-label multiclass via Softmax) memaksakan batasan zero-sum (maksimal 1 label per ulasan), melenyapkan laporan insiden teknis ketika bercampur dengan pujian gameplay atau cerita.",
+    "Keterbatasan sumber daya studio pengembang indie (tim skala 2-5 orang) menghadapi puluhan ribu ulasan berderau (slang pemain, sarkasme) pada jendela krusial 72 jam pasca-rilis."
+  ],
+  "research_objectives": [
+    "Mengembangkan arsitektur Aspect-Category Sentiment Analysis (ACSA) multi-model BERT terpisah (Gameplay, Story & Aesthetics, Technical) pada ulasan gim indie Steam berbasis Taksonomi Faset Pengalaman Bermain dan Pengujian Gim.",
+    "Menerapkan fungsi kerugian Cross-Entropy terbobot dinamis (Class-Weighted Loss) dan manual training loop PyTorch murni untuk mengatasi ketimpangan distribusi data ekstrem.",
+    "Menguji keunggulan empiris model BERT terhadap baseline Linear SVM pada test set terisolasi (N=225) serta mengimplementasikan Game Scorecard berbasis Aspect Sentiment Index (ASI) pada 150 gim indie (60.820 ulasan unseen)."
+  ],
+  "research_boundaries": [
+    "Korpus penelitian dibatasi pada 150 gim indie Steam berbayar dengan ulasan berbahasa Inggris.",
+    "Kategori aspek mengacu pada Taksonomi Faset Pengalaman Bermain dan Pengujian Gim (Politowski dkk., 2021; Guzman & Maalej, 2014; Lin dkk., 2019), dibatasi pada 3 faset dominan: Gameplay, Story & Aesthetics, dan Technical & Performance (mengecualikan standar ISO/IEC 25010).",
+    "Skema anotasi sentimen diskrit per aspek menggunakan label {0: None, 1: Positif, 2: Negatif}.",
+    "Mengecualikan kategori gim MMO, live-service masif, dan gim PvP murni.",
+    "Tidak melakukan prediksi penjualan finansial atau konversi monetisasi.",
+    "Lingkungan komputasi pengujian menggunakan GPU NVIDIA GeForce GTX 1650 4GB VRAM dan CPU laptop sebagai parameter lingkungan eksperimen."
+  ],
+  "empirical_ssot_data": {
+    "corpus": {
+      "raw_reviews": 75000,
+      "raw_games_jsonl": 150,
+      "clean_unseen_reviews": 60820
+    },
+    "ground_truth": {
+      "total_samples": 1500,
+      "validation_status": "human_verified_and_expert_guided",
+      "annotation_guideline": "Multi-Aspect Consistent Guideline (Politowski et al., 2021; Guzman & Maalej, 2014; Lin et al., 2019)",
+      "provenance_notes": "Seluruh 1.500 sampel ulasan merupakan dataset ground truth kanonikal yang divalidasi dan dianotasi penuh (human-verified/expert-guided). Narasi terpisah 127 manual vs 1.373 leksikon/LLM dan skrip auto_annotate_pipeline.py resmi dicabut dan dieliminasi.",
+      "split_ratio": "70:15:15",
+      "train_count": 1050,
+      "val_count": 225,
+      "test_count": 225,
+      "zero_data_leakage_verified": true
+    },
+    "distribution_1500": {
+      "gameplay": { "none_0": 565, "pos_1": 709, "neg_2": 226 },
+      "story": { "none_0": 940, "pos_1": 484, "neg_2": 76 },
+      "technical": { "none_0": 1392, "pos_1": 30, "neg_2": 78 }
+    },
+    "test_set_results_n225": {
+      "gameplay": {
+        "svm_macro_f1": 0.6096,
+        "svm_active_macro_f1": 0.5810,
+        "bert_macro_f1": 0.7368,
+        "bert_active_macro_f1": 0.7632,
+        "delta_active_f1": 0.1821
+      },
+      "story": {
+        "svm_macro_f1": 0.5218,
+        "svm_active_macro_f1": 0.3772,
+        "bert_macro_f1": 0.5817,
+        "bert_active_macro_f1": 0.4864,
+        "delta_active_f1": 0.1092
+      },
+      "technical": {
+        "svm_macro_f1": 0.4035,
+        "svm_active_macro_f1": 0.1250,
+        "bert_macro_f1": 0.5471,
+        "bert_active_macro_f1": 0.3487,
+        "delta_active_f1": 0.2237
+      },
+      "mean_active_macro_f1_gain": 0.1717
+    },
+    "downstream_asi": {
+      "total_games": 150,
+      "formula": "ASI = N_pos / (N_pos + N_neg) * 100%",
+      "scorecard_path": "reports/game_scorecards.csv"
+    }
+  },
+  "widyatama_guidelines_reference": "C:/Project Agent/AcademicSystem/guidelines/widyatama_thesis_rules.json"
+}
